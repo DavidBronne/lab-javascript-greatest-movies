@@ -112,3 +112,45 @@ function turnHoursToMinutes(arr) {
 }
 
 // BONUS Iteration: Best yearly rate average - Best yearly rate average
+function bestYearAvg(arr) {
+    if (!arr.length) {
+      return null;
+    }
+  
+    /*
+    [
+        { year: 1999, title: 'Bob's favourite movie'},   <--
+        { year: 2001, title: 'Bob's favourite movie 2'},
+        { year: 2012, title: 'Bob's favourite movie 3'},
+        { year: 2016, title: 'Bob's favourite movie 4'},
+    ]
+    */
+    const dictionary = {};
+  
+    arr.forEach(function(movie) {
+      if (!dictionary[movie.year]) {
+        dictionary[movie.year] = [];
+        dictionary[movie.year].push(movie);
+      } else {
+        dictionary[movie.year].push(movie);
+      }
+    });
+  
+    let highest = 0;
+    let bestYear;
+  
+    //         2012
+    for (const yearProp in dictionary) {
+      const currentYearAverage = ratesAverage(dictionary[yearProp]);
+      if (currentYearAverage > highest) {
+        highest = currentYearAverage;
+        bestYear = yearProp;
+      } else if (currentYearAverage === highest) {
+        // Check which year is the lowest and save it to the `oldestYear`
+        const oldestYear = yearProp < bestYear ? yearProp : bestYear;
+        bestYear = oldestYear;
+      }
+    }
+  
+    return `The best year was ${bestYear} with an average rate of ${highest}`;
+  }
